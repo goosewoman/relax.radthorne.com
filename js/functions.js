@@ -145,7 +145,7 @@ function resetVolume()
 
 function setTitle(id)
 {
-    jQuery.get("json.php", { video_id: id, type: "title" }, function (data)
+    jQuery.get("ajax.php", { video_id: id, type: "title" }, function (data)
     {
         jQuery("#current_song").text(data);
     });
