@@ -9,5 +9,5 @@
     {
       return $title;
     }
-    return "meep";
+    return "Title not found!";
   }
