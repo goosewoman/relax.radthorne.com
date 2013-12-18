@@ -1,0 +1,93 @@
+
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700);
+
+html, body, head
+{
+    margin     : 0;
+    padding    : 0;
+    background : lightgray;
+}
+
+#center
+{
+    width      : 800px;
+    height     : 240px;
+    background : #51AAE3;
+    margin     : 20px auto 0;
+
+}
+
+#title
+{
+    width       : 720px;
+    height      : 100px;
+    margin      : 0 auto;
+    font-size   : 25px;
+    color       : white;
+    font-family : 'Source Sans Pro', sans-serif;
+
+}
+
+#title a
+{
+    font-size       : 25px;
+    color           : white;
+    font-family     : 'Source Sans Pro', sans-serif;
+    text-decoration : underline;
+    font-style      : normal;
+}
+
+#perma_link
+{
+    width : 300px;
+}
+
+.hidden
+{
+    display : none;
+}
+
+#topcenter
+{
+    padding : 0;
+    width   : 560px;
+    height  : 315px;
+    margin  : 50px auto 0;
+}
+
+#song
+{
+    z-index : 0;
+}
+
+#mask
+{
+    position : absolute;
+    z-index  : 1;
+    width    : 560px;
+    height   : 315px;
+}
+#controls
+{
+    background: #4A9BCF;
+    width:280px;
+    height:30px;
+    margin: 0 auto;
+    padding: 0;
+}
+#controls *
+{
+    position: relative;
+}
+#volume_box
+{
+    width : 25px;
+    top: -5px;
+}
+.controls
+{
+    text-decoration : none !important;
+    top: -3px;
+}
+
+
