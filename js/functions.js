@@ -1,7 +1,5 @@
-function stopVideo()
-{
-    song.stopVideo();
-}
+// I don't want no ajax, I want sjax.
+
 
 function restartVideo(target)
 {
@@ -10,13 +8,13 @@ function restartVideo(target)
     target.playVideo();
 }
 
-var volume = 100;
-var current = "";
+var fireVolume = 60;
+var songVolume = 100;
+var rainVolume = 20;
 
-function createURL(videoID)
-{
-    return "http://www.youtube.com/embed/" + videoID + "?wmode=opaque&autoplay=1&iv_load_policy=3&loop=1&enablejsapi=1&controls=0&showinfo=0&rel=0&vq=hd720&playlist=" + videoID;
-}
+
+var volume = 70;
+var current = "";
 
 function createNormalUrl(id)
 {
@@ -25,10 +23,10 @@ function createNormalUrl(id)
 
 function randomSong()
 {
-    var rand = Math.floor(Math.random() * (videoIDs.length - 1));
+    var rand = getRandom(videoIDs.length - 1);
     if (current == videoIDs[rand])
     {
-        rand = Math.floor(Math.random() * (videoIDs.length - 1));
+        rand = getRandom(videoIDs.length - 1);
     }
     current = videoIDs[rand];
     setSong(current)
@@ -42,6 +40,7 @@ function setSong(id)
 {
     jQuery("#current_song").attr("href", createNormalUrl(id));
     setTitle(id);
+    getSavedVolume();
     jQuery("#perma_link").attr("value", createPermaLink(id));
     jQuery("#perma_link_a").attr("href", createPermaLink(id));
     song.loadVideoById(id, 0, 'hd720');
@@ -51,15 +50,15 @@ function getTotalVolume(id)
 {
     if (id == "song")
     {
-        return 100;
+        return songVolume;
     }
     else if (id == "rainymood")
     {
-        return 50;
+        return rainVolume;
     }
     else if (id == "fireplace")
     {
-        return 90;
+        return fireVolume;
     }
     else
     {
@@ -67,13 +66,44 @@ function getTotalVolume(id)
     }
 }
 
-function saveVolume()
+function getSavedVolume()
 {
+    jQuery.get("ajax.php", { type: "getVolume" }, function (data)
+    {
+        if(data < 0)
+        {
+            data = 70;
+        }
+        setCurrentVolume(data);
+    });
+}
 
+function getRandom(max)
+{
+    jQuery.ajaxSetup({ async: false });
+    var rand = 0;
+    jQuery.get("ajax.php", { type: "randomNumber", max: max }, function (data)
+    {
+        rand = data;
+    });
+    jQuery.ajaxSetup({async:true});
+    return rand;
+}
+
+function saveVolume(vol)
+{
+    jQuery.get("ajax.php", { volume: vol, type: "saveVolume" }, function (data)
+    {
+        if(data < 1)
+        {
+            alert("error saving volume: "+vol);
+        }
+    });
 }
 
 function setCurrentVolume(vol)
 {
+    vol = parseInt(vol);
     if (vol > 100)
     {
         vol = 100;
@@ -82,25 +112,14 @@ function setCurrentVolume(vol)
     {
         vol = 0;
     }
-    jQuery("#volume_box").val(vol);
-    jQuery("#volume_slider").val(vol);
     volume = vol;
-    saveVolume();
+//    saveVolume(vol);
     var dec = vol / 100;
+    jQuery("#volume_slider").val(vol);
 
     setVolume("song", getTotalVolume("song") * dec);
     setVolume("rainymood", getTotalVolume("rainymood") * dec);
     setVolume("fireplace", getTotalVolume("fireplace") * dec);
-}
-
-function lowerVolume()
-{
-    setCurrentVolume(volume - 1)
-}
-
-function raiseVolume()
-{
-    setCurrentVolume(volume + 1)
 }
 
 function setVolume(id, volume)
@@ -136,11 +155,9 @@ function playVideo(id)
 
 function resetVolume()
 {
-    setVolume("fireplace", 90);
-    setVolume("rainymood", 50);
-    setVolume("song", 100);
-    jQuery("#volume_slider").val(100);
-    jQuery("#volume_box").val(100);
+    setCurrentVolume(50);
+    jQuery("#volume_slider").val(50);
+    jQuery("#volume_box").val(50);
 }
 
 function setTitle(id)
@@ -153,7 +170,7 @@ function setTitle(id)
 
 function pauseOrPlay()
 {
-    var button = jQuery("#startplay").find("img");
+    var button = jQuery("#pauseplay").find("img");
     if (button.attr("src") == "/img/pause.png")
     {
         pauseAll();
@@ -164,4 +181,29 @@ function pauseOrPlay()
         playAll();
         button.attr("src", "/img/pause.png");
     }
+}
+var boxHidden = true;
+
+function showOrHideInfobox()
+{
+    if(boxHidden)
+    {
+        showBox()
+    }
+    else
+    {
+        hideBox();
+    }
+    boxHidden = !boxHidden;
+}
+
+function showBox()
+{
+    jQuery("#center").fadeIn(300);
+}
+
+function hideBox()
+{
+    jQuery("#center").fadeOut(300);
+
 }
