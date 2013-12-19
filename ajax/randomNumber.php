@@ -2,7 +2,7 @@
   $max = $_GET['max'];
   if(is_numeric($max))
   {
-    print rand(0, $max);
+    print mt_rand(0, $max);
   }
   else
   {

@@ -1,5 +1,18 @@
 // I don't want no ajax, I want sjax.
 
+var videoIDs = [];
+var repeat = true;
+function nextVideo(target)
+{
+    if(repeat)
+    {
+        restartVideo(target)
+    }
+    else
+    {
+        //next video code here
+    }
+}
 
 function restartVideo(target)
 {
@@ -10,7 +23,7 @@ function restartVideo(target)
 
 var fireVolume = 60;
 var songVolume = 100;
-var rainVolume = 20;
+var rainVolume = 40;
 
 
 var volume = 70;
@@ -42,7 +55,7 @@ function setSong(id)
     setTitle(id);
     volume = getSavedVolume();
     setCurrentVolume(volume);
-    jQuery("#perma_link").attr("value", createPermaLink(id));
+    jQuery("input[id=perma_link]").val(createPermaLink(id));
     song.loadVideoById(id, 0, 'hd720');
 }
 
@@ -180,33 +193,7 @@ function pauseOrPlay()
         button.attr("src", "/img/pause.png");
     }
 }
-var boxHidden = true;
 
-function showOrHideInfobox()
-{
-    if(boxHidden)
-    {
-        showBox();
-        boxHidden = false;
-    }
-    else
-    {
-        hideBox();
-        boxHidden = true;
-    }
-
-}
-
-function showBox()
-{
-    jQuery("#center").fadeIn(300);
-}
-
-function hideBox()
-{
-    jQuery("#center").fadeOut(300);
-
-}
 
 function initVolumeSaveTask()
 {
@@ -221,4 +208,94 @@ function initVolumeSaveTask()
         },
         5000
     );
+}
+
+function initSongs()
+{
+    jQuery.get("ajax.php", { type: "getSongs" },
+        function (data)
+        {
+            for (var key in data)
+            {
+                if (data.hasOwnProperty(key))
+                {
+                    videoIDs.push(key);
+                    appendToSelect("song_select", key, data[key]);
+                }
+            }
+        }
+    );
+}
+
+function appendToSelect(selectId, optionKey, optionValue)
+{
+    jQuery("#"+selectId).append(
+        jQuery("<option></option>")
+        .attr("value",optionKey)
+        .text(optionValue)
+    );
+}
+
+var listBoxHidden = true;
+
+function showOrHideListbox()
+{
+    if(listBoxHidden)
+    {
+        if(!infoBoxHidden)
+        {
+            jQuery("#infoBox").fadeOut(500, function(){
+                jQuery("#listBox").fadeIn(500);
+            });
+            infoBoxHidden = true;
+        }
+        else
+        {
+            jQuery("#listBox").fadeIn(500);
+        }
+        listBoxHidden = false;
+    }
+    else
+    {
+        jQuery("#listBox").fadeOut(500);
+        listBoxHidden = true;
+    }
+}
+
+var infoBoxHidden = true;
+
+function showOrHideInfobox()
+{
+    if(infoBoxHidden)
+    {
+        if(!listBoxHidden)
+        {
+            jQuery("#listBox").fadeOut(500, function(){
+                jQuery("#infoBox").fadeIn(500);
+            });
+            listBoxHidden = true;
+        }
+        else
+        {
+            jQuery("#infoBox").fadeIn(500);
+        }
+        infoBoxHidden = false;
+    }
+    else
+    {
+        jQuery("#infoBox").fadeOut(500);
+        infoBoxHidden = true;
+    }
+}
+
+function getURLParameter(name, url)
+{
+    KeysValues = url.split(/[\?&]+/);
+    for (i = 0; i < KeysValues.length; i++) {
+        KeyValue = KeysValues[i].split("=");
+        if (KeyValue[0] == name) {
+            return KeyValue[1];
+        }
+    }
+    return "";
 }

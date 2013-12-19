@@ -17,7 +17,7 @@ html, body, head
     background-size: cover;
 }
 
-#center
+#infoBox, #listBox
 {
     width      : 330px;
     height     : 62px;
@@ -31,6 +31,26 @@ html, body, head
     padding : 5px 10px 10px;
     color: white;
     line-height: 24px;
+}
+
+#listBox
+{
+    font-family : 'Source Sans Pro', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px;
+    width: 420px;
+    height: 142px;
+}
+
+#listBox select
+{
+    width: 400px;
+}
+
+#listBox #youtubeVideo
+{
+    width:340px;
 }
 
 #title
@@ -116,7 +136,7 @@ html, body, head
 {
     background: rgba(19, 34, 46, 0.50);
     padding : 0;
-    width   : 405px;
+    width   : 420px;
     height  : 30px;
     margin  : 20px auto 0;
 }
@@ -131,22 +151,37 @@ html, body, head
     left:10px;
     top: 7px;
 }
-
 #volume_slider-slider
 {
     left: 30px;
     top: -15px;
 }
-
 #next
 {
     top: -32px;
     left: 355px;
 }
+#list
+{
+    top: -32px;
+    left: 360px;
+}
 #info
 {
     top: -32px;
     left: 360px;
+}
+
+#constructionHeader
+{
+    text-align: center;
+    color: #0000ff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: red;
+    border-bottom: 1px solid darkred;
 }
 
 /* Styles for screen 800px and lower */

@@ -4,25 +4,10 @@
   $type = $_GET['type'];
   switch($type)
   {
-
-  }
-
-
-
-  if($type == "title")
-  {
-    require_once "ajax/title.php";
-  }
-  else if ($type == "saveVolume")
-  {
-    require_once "ajax/saveVolume.php";
-  }
-  else if ($type == "getVolume")
-  {
-    require_once "ajax/getVolume.php";
-  }
-  else if ($type == "randomNumber")
-  {
-    require_once "ajax/randomNumber.php";
+    case "title": require_once "ajax/title.php"; break;
+    case "saveVolume": require_once "ajax/saveVolume.php"; break;
+    case "getVolume": require_once "ajax/getVolume.php"; break;
+    case "randomNumber": require_once "ajax/randomNumber.php"; break;
+    case "getSongs": require_once "ajax/getSongs.php"; break;
   }
 
