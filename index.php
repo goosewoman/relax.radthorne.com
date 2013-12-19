@@ -20,7 +20,6 @@
   <head>
     <title>Relax</title>
     <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="application/javascript"></script>
-    <script src="js/purl.js" type="application/javascript"></script>
     <script src="js/functions.js" type="application/javascript"></script>
     <script src="js/listeners.js" type="application/javascript"></script>
     <script src="js/simple-slider.min.js" type="application/javascript"></script>
