@@ -5,6 +5,7 @@
   //TODO: Social sharing buttons.
   //TODO: Allow people to toggle random song on end of song.
   //TODO: Add ambient sound control. (not important, so at the bottom of the list)
+  header( "Content-type: text/html; charset=utf-8");
 
   $selected = '';
   if ( isset( $_GET['v'] ) && !empty( $_GET['v'] ) )
@@ -112,6 +113,7 @@
       // 4. The API will call this function when the video song is ready.
       function onPlayerReady(event)
       {
+        setCurrentVolume(getSavedVolume());
         var selected = "<?php echo $selected ?>";
         if (selected != "")
         {
@@ -155,7 +157,8 @@
     </div>
 
     <div id="center">
-        <input type="text" id="perma_link"><br/>
+      <label for="perma_link">Permalink:</label><br />
+      <input name="perma_link" type="text" id="perma_link" readonly="readonly"><br/>
     </div>
     <div class="hidden">
       <div id="fireplace"></div>

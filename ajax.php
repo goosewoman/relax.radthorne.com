@@ -2,42 +2,27 @@
   require_once 'functions.php';
 
   $type = $_GET['type'];
-  if ( $type == "title" )
+  switch($type)
   {
-    header( 'content-type: text/plain' );
-    print getTitle( $_GET['video_id'] );
-    exit;
+
   }
-  else if ( $type == "saveVolume" )
+
+
+
+  if($type == "title")
   {
-    $volume = $_GET['volume'];
-    if ( is_numeric( $volume ) )
-    {
-      saveVolume( $volume );
-      print 1;
-    }
-    else
-    {
-      print 0;
-    }
-    exit;
+    require_once "ajax/title.php";
   }
-  else if ( $type == "getVolume" )
+  else if ($type == "saveVolume")
   {
-    print getVolume();
-    exit;
+    require_once "ajax/saveVolume.php";
   }
-  else if ( $type == "randomNumber" )
+  else if ($type == "getVolume")
   {
-    $max = $_GET['max'];
-    if ( is_numeric( $max ) )
-    {
-      print rand( 0, $max );
-    }
-    else
-    {
-      print 0;
-    }
-    exit;
+    require_once "ajax/getVolume.php";
+  }
+  else if ($type == "randomNumber")
+  {
+    require_once "ajax/randomNumber.php";
   }
 

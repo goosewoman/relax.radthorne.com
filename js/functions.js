@@ -40,9 +40,9 @@ function setSong(id)
 {
     jQuery("#current_song").attr("href", createNormalUrl(id));
     setTitle(id);
-    getSavedVolume();
+    volume = getSavedVolume();
+    setCurrentVolume(volume);
     jQuery("#perma_link").attr("value", createPermaLink(id));
-    jQuery("#perma_link_a").attr("href", createPermaLink(id));
     song.loadVideoById(id, 0, 'hd720');
 }
 
@@ -68,14 +68,21 @@ function getTotalVolume(id)
 
 function getSavedVolume()
 {
+    jQuery.ajaxSetup({ async: false });
+    var vol = volume;
     jQuery.get("ajax.php", { type: "getVolume" }, function (data)
     {
         if(data < 0)
         {
-            data = 70;
+            vol = 70;
         }
-        setCurrentVolume(data);
+        else
+        {
+            vol = data;
+        }
     });
+    jQuery.ajaxSetup({async:true});
+    return vol;
 }
 
 function getRandom(max)
@@ -113,7 +120,6 @@ function setCurrentVolume(vol)
         vol = 0;
     }
     volume = vol;
-//    saveVolume(vol);
     var dec = vol / 100;
     jQuery("#volume_slider").val(vol);
 
@@ -152,14 +158,6 @@ function playVideo(id)
     document.getElementById(id).contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 }
 
-
-function resetVolume()
-{
-    setCurrentVolume(50);
-    jQuery("#volume_slider").val(50);
-    jQuery("#volume_box").val(50);
-}
-
 function setTitle(id)
 {
     jQuery.get("ajax.php", { video_id: id, type: "title" }, function (data)
@@ -188,13 +186,15 @@ function showOrHideInfobox()
 {
     if(boxHidden)
     {
-        showBox()
+        showBox();
+        boxHidden = false;
     }
     else
     {
         hideBox();
+        boxHidden = true;
     }
-    boxHidden = !boxHidden;
+
 }
 
 function showBox()
@@ -206,4 +206,19 @@ function hideBox()
 {
     jQuery("#center").fadeOut(300);
 
+}
+
+function initVolumeSaveTask()
+{
+    var t = setInterval(
+        function()
+        {
+            var vol = getSavedVolume();
+            if(vol != volume)
+            {
+                saveVolume(volume);
+            }
+        },
+        5000
+    );
 }

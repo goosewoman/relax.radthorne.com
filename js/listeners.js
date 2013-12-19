@@ -1,5 +1,7 @@
 jQuery(document).ready(function ()
 {
+    initVolumeSaveTask()
+
     jQuery("#volume_slider").bind("slider:changed",
         function (event, data)
         {
@@ -24,5 +26,11 @@ jQuery(document).ready(function ()
         {
             showOrHideInfobox();
         }
-    )
+    );
+    $("#perma_link").on("focus click",
+        function ()
+        {
+            this.select();
+        }
+    );
 });
