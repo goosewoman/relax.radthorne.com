@@ -1,4 +1,3 @@
-
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:700);
 
 html
@@ -148,6 +147,26 @@ html, body, head
 {
     top: -32px;
     left: 360px;
+}
+
+/* Styles for screen 800px and lower */
+@media screen and (max-width: 800px) {
+	#title 
+	{
+		width: 100%;
+	}
+}
+
+/* Styles for screen 570px and lower */
+@media screen and (max-width: 570px) {
+	#topcenter 
+	{
+		width: 100%;
+	}
+	#controls 
+	{
+		width: 100%;
+	}
 }
 
 
